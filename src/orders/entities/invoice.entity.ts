@@ -1,26 +1,36 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  JoinColumn,
+  OneToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { OrderEntity } from "./order.entity";
 import { ItemEntity } from "./item.entity";
 
-@Entity({ name: 'invoices' })
+@Index("invoices_pkey", ["id"], { unique: true })
+@Entity("invoices", { schema: "public" })
 export class InvoiceEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
+  id?: number;
 
-  @Column()
-  created_date: Date;
+  @Column("timestamp with time zone", { name: "created_date", nullable: true })
+  createdDate?: Date;
 
-  @Column()
-  updated_date: Date;
+  @Column("timestamp with time zone", { name: "updated_date", nullable: true })
+  updatedDate?: Date;
 
-  @Column()
-  deleted_date: Date;
+  @Column("timestamp with time zone", { name: "deleted_date", nullable: true })
+  deletedDate?: Date;
 
-  @ManyToOne(() => OrderEntity, order => order.invoices)
-  @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
-  order: OrderEntity;
+  @OneToOne(() => OrderEntity, (order) => order.invoice)
+  @JoinColumn([{ name: "order_id", referencedColumnName: "id" }])
+  order?: OrderEntity;
 
-  @OneToMany(() => ItemEntity, item => item.invoice)
-  items: ItemEntity[];
-
+  @OneToMany(() => ItemEntity, (items) => items.invoice, { cascade: ['insert', 'update'] })
+  items?: ItemEntity[];
 }

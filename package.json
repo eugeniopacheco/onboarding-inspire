@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm:model:generate": "typeorm-model-generator -h localhost -d onboarding -p 8081 -u postgres -x postgres -e postgres -s public"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -29,7 +30,8 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "typeorm-model-generator": "^0.4.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

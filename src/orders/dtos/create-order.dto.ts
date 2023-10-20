@@ -1,7 +1,10 @@
-import { ArrayNotEmpty } from "class-validator";
-import { OrderItemDto } from "./order-item.dto";
+import { IsNotEmpty, ValidateNested } from "class-validator";
+import { CreateInvoiceDto } from "./create-invoice.dto";
+import { Type } from "class-transformer";
 
 export class CreateOrderDto {
-  @ArrayNotEmpty()
-  items: OrderItemDto[];
+  @IsNotEmpty()
+  @ValidateNested({ each: false })
+  @Type(() => CreateInvoiceDto)
+  invoice: CreateInvoiceDto;
 }

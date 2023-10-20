@@ -17,6 +17,7 @@ import { ItemEntity } from './orders/entities/item.entity';
     database: 'onboarding',
     entities: [OrderEntity, InvoiceEntity, ItemEntity],
     synchronize: false,
+    logging: true,
   }), OrdersModule],
   controllers: [AppController],
   providers: [AppService],

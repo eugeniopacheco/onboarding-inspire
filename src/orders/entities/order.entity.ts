@@ -1,20 +1,28 @@
+import {
+  Column,
+  Entity,
+  Index,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { InvoiceEntity } from "./invoice.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: 'orders' })
+@Index("orders_pkey", ["id"], { unique: true })
+@Entity("orders", { schema: "public" })
 export class OrderEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
   id: number;
 
-  @Column()
-  created_date: Date;
+  @Column("timestamp with time zone", { name: "created_date", nullable: true })
+  createdDate?: Date;
 
-  @Column()
-  updated_date: Date;
+  @Column("timestamp with time zone", { name: "updated_date", nullable: true })
+  updatedDate?: Date;
 
-  @Column()
-  deleted_date: Date;
+  @Column("timestamp with time zone", { name: "deleted_date", nullable: true })
+  deletedDate?: Date;
 
-  @OneToMany(() => InvoiceEntity, invoice => invoice.order)
-  invoices: InvoiceEntity[];
+  @OneToOne(() => InvoiceEntity, (invoice) => invoice.order, { cascade: ['insert', 'update'] })
+  invoice: InvoiceEntity;
+
 }

@@ -6,33 +6,33 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { InvoiceEntity } from "./invoice.entity";
+import { Invoices } from "./Invoices";
 
 @Index("items_pkey", ["id"], { unique: true })
 @Entity("items", { schema: "public" })
-export class ItemEntity {
+export class Items {
   @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
-  id?: number;
+  id: string;
 
   @Column("character varying", { name: "name", nullable: true, length: 50 })
   name: string | null;
 
   @Column("numeric", { name: "price", nullable: true, precision: 8, scale: 2 })
-  price: number;
+  price: string | null;
 
   @Column("integer", { name: "quantity", nullable: true })
   quantity: number | null;
 
   @Column("timestamp with time zone", { name: "created_date", nullable: true })
-  createdDate?: Date | null;
+  createdDate: Date | null;
 
   @Column("timestamp with time zone", { name: "updated_date", nullable: true })
-  updatedDate?: Date | null;
+  updatedDate: Date | null;
 
   @Column("timestamp with time zone", { name: "deleted_date", nullable: true })
-  deletedDate?: Date | null;
+  deletedDate: Date | null;
 
-  @ManyToOne(() => InvoiceEntity, (invoices) => invoices.items)
+  @ManyToOne(() => Invoices, (invoices) => invoices.items)
   @JoinColumn([{ name: "invoice_id", referencedColumnName: "id" }])
-  invoice?: InvoiceEntity;
+  invoice: Invoices;
 }
